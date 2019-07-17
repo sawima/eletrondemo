@@ -1,5 +1,7 @@
 const {ipcMain, dialog} = require('electron')
 
+const {spawn}=require('child_process')
+
 ipcMain.on('open-file-dialog', (event) => {
   dialog.showOpenDialog({
     properties: ['openFile'],
@@ -11,7 +13,7 @@ ipcMain.on('open-file-dialog', (event) => {
       event.sender.send('selected-directory', files)
 
       //Todo: spawn go process to handle data transformation
-      
+      spawn('./bin/main')
     }
   })
 })
