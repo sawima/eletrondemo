@@ -2,11 +2,11 @@ const xlsx=require('exceljs')
 const path = require("path")
 
 module.exports.readWorkbook=function(filePath){
-    console.log("xxx")
     let workbook=new xlsx.Workbook()
     let targetWorkbook=new xlsx.Workbook()
     if(filePath!=null){
         dirPath=path.dirname(filePath)
+        let targetFile=path.join(dirPath,"tbresult"+(new Date()).toISOString()+".xlsx")
         workbook.xlsx.readFile(filePath).then(function(){
             let worksheet=workbook.getWorksheet("Sheet1")
             if(worksheet!=null||worksheet!=undefined){
@@ -295,10 +295,15 @@ module.exports.readWorkbook=function(filePath){
                 targetWrongSheet.getCell("A1").value="Bad data sourcing excel"
             }
             // saveToTargetFile(workbook,dirPath,"intermediate")
-            saveToTargetFile(targetWorkbook,dirPath,"result")
+            saveToTargetFile(targetWorkbook,targetFile)
+            // return {success:true,target:targetFile}
+
         })
+        return {success:true,target:targetFile}
+
     } else{
         console.log("empty file")
+        return {success:false,target:null}
     }
 }
 
@@ -341,13 +346,12 @@ function hasSubCategory(categoryCode,nextRow){
   }
   return false
 }
-function saveToTargetFile(workbook,dir,filepre){
+function saveToTargetFile(workbook,targetFile){
 //   workbook.xlsx.writeFile("./"+dir+"/"+filepre+Date.now().toString()+".xlsx").then(function(){
 
 //   })
-    let targetFile=path.join(dir,filepre+(new Date()).toISOString()+".xlsx")
      workbook.xlsx.writeFile(targetFile).then(function(){
-        console.log("success save to target")
+        // console.log("success save to target")
     })
 }
       //add three column 

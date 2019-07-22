@@ -7,6 +7,19 @@ selectDirBtn.addEventListener('click', (event) => {
   ipcRenderer.send('open-file-dialog')
 })
 
-ipcRenderer.on('selected-directory', (event, path) => {
-  document.getElementById('selected-file').innerHTML = `You selected: ${path}`
+ipcRenderer.on('selected-directory', (event, result) => {
+  // document.getElementById('selected-file').innerHTML = `${path}`
+  // document.getElementById('selected-file').innerHTML = `${path}`
+  console.log(result)
+    if(result){
+      if(result.success){
+        let fileManagerBtn=document.getElementById('open-file-manager')
+        fileManagerBtn.setAttribute("data-filepath",result.target)
+        fileManagerBtn.classList.toggle("invisible")
+        document.getElementById('selected-file').innerHTML = ""
+      } else{
+        document.getElementById('selected-file').innerHTML = "faild, please retry"
+      }
+    }
+
 })
