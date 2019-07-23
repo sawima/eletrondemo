@@ -20,7 +20,6 @@ ipcMain.on('open-file-dialog', (event) => {
       //Todo: spawn go process to handle data transformation
       // spawn('./bin/main')
       let targetFile=tbexcel.readWorkbook(files[0])
-      console.log(targetFile)
       event.sender.send('selected-directory', targetFile)
 
       // if(transformResult.success==true){

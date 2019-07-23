@@ -8,18 +8,26 @@ selectDirBtn.addEventListener('click', (event) => {
 })
 
 ipcRenderer.on('selected-directory', (event, result) => {
-  // document.getElementById('selected-file').innerHTML = `${path}`
-  // document.getElementById('selected-file').innerHTML = `${path}`
-  console.log(result)
     if(result){
       if(result.success){
         let fileManagerBtn=document.getElementById('open-file-manager')
         fileManagerBtn.setAttribute("data-filepath",result.target)
-        fileManagerBtn.classList.toggle("invisible")
+        document.getElementById('selectfilerow').classList.add('invisible')
+        console.log("xxxxxx")
+        document.getElementById("loadspin").classList.remove('invisible')
+        setTimeout(function(){
+          document.getElementById("loadspin").classList.add('invisible')
+          document.getElementById('showfilerow').classList.remove('invisible')
+        },6000)
         document.getElementById('selected-file').innerHTML = ""
       } else{
         document.getElementById('selected-file').innerHTML = "faild, please retry"
       }
     }
+})
 
+document.getElementById("returnlink").addEventListener('click',(e)=>{
+  e.preventDefault()
+  document.getElementById('selectfilerow').classList.remove('invisible')
+  document.getElementById('showfilerow').classList.add('invisible')
 })
